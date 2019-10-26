@@ -1,0 +1,20 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/cogitare?serverTimezone=UTC</property>
+        <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>
+        <property name="show_sql">false</property>
+        <property name="hbm2ddl.auto">create</property>
+        <mapping class="biz.cogitare.driveranddelaydetails.domain.model.Driver"/>
+        <mapping class="biz.cogitare.driveranddelaydetails.domain.model.Station"/>
+        <mapping class="biz.cogitare.driveranddelaydetails.domain.model.Train"/>
+        <mapping class="biz.cogitare.driveranddelaydetails.domain.model.TrainDriverDetails"/>
+        <mapping class="biz.cogitare.driveranddelaydetails.domain.model.TrainDelayDetails"/>
+    </session-factory>
+</hibernate-configuration>

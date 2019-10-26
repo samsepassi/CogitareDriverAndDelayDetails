@@ -30,16 +30,20 @@ public class DataMinerServiceImplementation implements DataMinerService {
 
     @Override
     public void startMiningTasks() {
+        LOG.log(Level.INFO, "Starting Mining tasks ...");
         try {
             final List<String[]> rawData = fileReaderService.readFile("DriverAndDelayDetails.txt", header);
             final List<TrainDetailsDto> refinedDomainData = marshallerService.serializeToDomainDTO(rawData);
             try {
-
+                LOG.log(Level.INFO, "Starting TrainDriverDetailsMiner task.");
                 trainDriverDetailsMiner.feed(refinedDomainData);
                 trainDriverDetailsMiner.startMining();
 
+                LOG.log(Level.INFO, "Starting TrainDelayDetailsMiner task.");
                 trainDelayDetailsMiner.feed(refinedDomainData);
                 trainDelayDetailsMiner.startMining();
+
+                LOG.log(Level.INFO, "Mining tasks finished.");
             } finally {
                 try {
                     trainDriverDetailsMiner.close();
@@ -52,7 +56,5 @@ public class DataMinerServiceImplementation implements DataMinerService {
         } catch (FileReaderException ex) {
             LOG.log(Level.SEVERE, "DataMinerService failed due to an exception : {0}", ex.getMessage());
         }
-    } 
-    //TODO : exceptions
-
+    }
 }

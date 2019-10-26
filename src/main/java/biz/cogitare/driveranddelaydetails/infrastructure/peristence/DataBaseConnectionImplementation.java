@@ -13,10 +13,12 @@ public class DataBaseConnectionImplementation implements DataBaseConnection {
 
     private static final SessionFactory sessionFactory = new Configuration().configure()
             .buildSessionFactory();
+    private Session session;
 
     @Override
     public Session getSession() {
-            return sessionFactory.openSession();
+        session = sessionFactory.openSession();
+        return session;
     }
 
     @Override
@@ -25,8 +27,13 @@ public class DataBaseConnectionImplementation implements DataBaseConnection {
     }
 
     @Override
-    public SessionFactory getSessionFacotry() { //TODO get rid of this ?
-        return sessionFactory;
+    public boolean isSessionActive() {
+        return session.isOpen();
+    }
+
+    @Override
+    public boolean isOpen() {
+        return sessionFactory.isOpen();
     }
 
 }

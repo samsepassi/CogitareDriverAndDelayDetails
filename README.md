@@ -1,5 +1,6 @@
 # CogitareDriverAndDelayDetails
 
+# Build and Run
 1. mvn clean package
 2. cd target or copy the CogitareDriverAndDelayDetails-1.0-SNAPSHOT-jar-with-dependencies.jar to your desired directory
 3. java -jar CogitareDriverAndDelayDetails-1.0-SNAPSHOT-jar-with-dependencies.jar

@@ -5,6 +5,10 @@
 2. cd target or copy the CogitareDriverAndDelayDetails-1.0-SNAPSHOT-jar-with-dependencies.jar to your desired directory
 3. java -jar CogitareDriverAndDelayDetails-1.0-SNAPSHOT-jar-with-dependencies.jar
 
+# Test
+
+mvn test
+
 # Persistence
 
 * The following technologies are used for the ORM:

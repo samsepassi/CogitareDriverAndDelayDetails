@@ -34,40 +34,41 @@ public class TrainDelayDetailsMinerTest {
     private final FileReaderService fileReaderService = new FileReaderServiceImplementation();
     private final DomainMarshallerService marshallerService = new DomainMarshallerServiceImplementation();
     private final DataBaseConnection dataBaseConnection = new DataBaseConnectionImplementation();
-    
+
     @Before
     public void setup() throws FileReaderException {
         List<String[]> rawContents = fileReaderService.readFile(resourceURI, header);
         minerDtoFeed = marshallerService.serializeToDomainDTO(rawContents);
         trainDelayDetailsMiner.feed(minerDtoFeed);
     }
-    
+
     @Test
     public void testMine() throws IOException {
 
         trainDelayDetailsMiner.startMining();
         Session session = dataBaseConnection.getSession();
+        try {
+            Query query = session.createQuery("from Train");
+            List<Train> trainList = query.list();
+            assertThat(trainList.size()).isEqualTo(4);
+            List<String> trainIds = trainList.stream().map(Train::getTrainID).collect(Collectors.toList());
+            minerDtoFeed.forEach(eachDto -> {
+                assertThat(trainIds.contains(eachDto.getTrainID())).isTrue();
+            });
 
-        Query query = session.createQuery("from Train");
-        List<Train> trainList = query.list();
-        assertThat(trainList.size()).isEqualTo(4);
-        List<String> trainIds = trainList.stream().map(Train::getTrainID).collect(Collectors.toList());
-        minerDtoFeed.forEach(eachDto -> {
-            assertThat(trainIds.contains(eachDto.getTrainID())).isTrue();
-        });
-        
-        query = session.createQuery("from Station");
-        List<Station> StationList = query.list();
-        assertThat(StationList.size()).isEqualTo(3);
-        List<String> stationIds = StationList.stream().map(Station::getStationID).collect(Collectors.toList());
-        minerDtoFeed.forEach(eachDto -> {
-            assertThat(stationIds.contains(eachDto.getStation())).isTrue();
-        });
-        
-        query = session.createQuery("from TrainDelayDetails");
-        List<TrainDelayDetails> trainDelayDetailsList = query.list();
-        assertThat(trainDelayDetailsList.size()).isEqualTo(4);
-        
-        session.close();
+            query = session.createQuery("from Station");
+            List<Station> StationList = query.list();
+            assertThat(StationList.size()).isEqualTo(3);
+            List<String> stationIds = StationList.stream().map(Station::getStationID).collect(Collectors.toList());
+            minerDtoFeed.forEach(eachDto -> {
+                assertThat(stationIds.contains(eachDto.getStation())).isTrue();
+            });
+
+            query = session.createQuery("from TrainDelayDetails");
+            List<TrainDelayDetails> trainDelayDetailsList = query.list();
+            assertThat(trainDelayDetailsList.size()).isEqualTo(4);
+        } finally {
+            session.close();
+        }
     }
 }

@@ -17,6 +17,7 @@ public class DataBaseConnectionImplementation implements DataBaseConnection {
 
     @Override
     public Session getSession() {
+        
         session = sessionFactory.openSession();
         return session;
     }

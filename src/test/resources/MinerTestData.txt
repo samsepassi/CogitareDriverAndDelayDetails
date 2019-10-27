@@ -1,0 +1,5 @@
+TrainId|Station|ActualDepartureTime|DriverName|DepartureLatenessInSeconds
+2F29|London Waterloo|2018-09-04T14:30:00|John Scott|0
+2D29|London Waterloo|2018-09-04T14:32:00|John Major|30
+5Y41|Richmond|2018-09-04T14:35:00|Andrew Lees|10
+2C33|Esher|2018-09-04T14:40:00|Barry Williams|120
